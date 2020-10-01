@@ -34,6 +34,9 @@ To efficiently create a profile for each employee.
 ##Visual
 ![picture](img/employeesummary.JPG)
 
+##Link
+https://drive.google.com/file/d/1cBKCHS-xwyrDUVUHWi-X4jL3sDxoLcs6/view
+
 ##Contributing
 
 Acknowledgements goes to my tutor and bootcamp colleauges.
