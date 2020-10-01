@@ -9,6 +9,166 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+const teamArray = [];
+
+
+
+
+firstQuestion = [{
+    type: "list",
+    name: "role",
+    message: "Please select your role",
+    choices: ["Engineer", "Intern", "Manager"]
+}]
+
+engineerQuestions = [
+{
+    type: "input",
+    name: "name",
+    message: "Please enter your name"
+},
+{
+    type: "input",
+    name: "id",
+    message: "Please enter your id number"
+},
+{
+    type: "input",
+    name: "email",
+    message: "Please enter your email address"
+},
+{
+    type: "input",
+    name: "github",
+    message: "Please enter your Github username"   
+}
+];
+
+internQuestions = [
+{
+    type: "input",
+    name: "name",
+    message: "Please enter your name"
+},
+{
+    type: "input",
+    name: "id",
+    message: "Please enter your id number"
+},
+{
+    type: "input",
+    name: "email",
+    message: "Please enter your email address"
+},
+{
+    type: "input",
+    name: "school",
+    message: "Please enter the school you are attending"   
+}
+]; 
+
+managerQuestions = [
+{
+    type: "input",
+    name: "name",
+    message: "Please enter your name"
+},
+{
+    type: "input",
+    name: "id",
+    message: "Please enter your id number"
+},
+{
+    type: "input",
+    name: "email",
+    message: "Please enter your email address"
+},
+{
+    type: "input",
+    name: "officeNumber",
+    message: "Please enter your office number"   
+}]
+
+function teamProfile(){
+    inquirer
+        .prompt(firstQuestion)
+        .then(function(response) {
+            if(response.role === "Engineer"){
+                createEngineerProfile();
+            }else if (response.role === "Intern"){
+                createInternProfile();
+            }else if (response.role === "Manager"){
+                createManagerProfile();
+            }else{
+                createTeam();
+            }
+})
+}
+
+function stopPrompt(){
+    inquirer
+    .prompt([
+        {
+        type: "confirm",
+        name: "continue",
+        message: "Would you like to continue?"
+        }
+]).then(function(res){
+    if(res.continue){
+        teamProfile();
+    }else{
+        createTeam();
+    }
+})
+}
+teamProfile();
+
+function createTeam(){
+    const teamData = render(teamArray);
+    fs.writeFile(outputPath, teamData, function(err){
+    if (err) throw err;   
+});
+}
+
+function createEngineerProfile(){
+    console.log("Engineer");
+    inquirer.prompt(engineerQuestions).then(function (response){
+        let mark = new Engineer(response.name, response.id, response.email, response.officeNumber)
+        console.log(mark);
+        teamArray.push(mark);
+        stopPrompt();
+
+    }).catch (function(err){
+        console.log(err)
+    });
+}
+
+function createInternProfile(){
+    console.log("Intern");
+    inquirer.prompt(internQuestions).then(function (response){
+        let troy = new Intern(response.name, response.id, response.email, response.school)
+        console.log(troy);
+        teamArray.push(troy);
+        stopPrompt();
+
+    }).catch (function(err){
+        console.log(err)
+    });
+}
+
+function createManagerProfile(){
+    console.log("Manager");
+    inquirer.prompt(managerQuestions).then(function (response){
+        let lisa = new Intern(response.name, response.id, response.email, response.officeNumber)
+        console.log(lisa);
+        teamArray.push(lisa);
+        stopPrompt();
+
+    }).catch (function(err){
+        console.log(err)
+    });
+}
+
 
 
 // Write code to use inquirer to gather information about the development team members,
